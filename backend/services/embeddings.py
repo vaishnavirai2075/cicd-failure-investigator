@@ -109,10 +109,6 @@ def embed_build_logs(
 
 
 def search_similar_failures(error_text: str, n: int = 5) -> list[dict]:
-    """
-    Vector-search ChromaDB for builds with similar error text.
-    Returns a list of dicts with document text + metadata + score.
-    """
     vs = get_vector_store()
     results = vs.similarity_search_with_relevance_scores(error_text, k=n)
 
@@ -122,7 +118,7 @@ def search_similar_failures(error_text: str, n: int = 5) -> list[dict]:
             {
                 "text": doc.page_content,
                 "metadata": doc.metadata,
-                "score": round(score, 4),
+                "score": round(max(0.0, score), 4),  # clamp negatives to 0
             }
         )
     return hits
