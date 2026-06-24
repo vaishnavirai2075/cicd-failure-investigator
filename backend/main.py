@@ -1,7 +1,8 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 from database import engine, Base
-import models  # noqa: F401 — ensures models are registered with Base
+import models  # noqa: F401
+from routers import webhooks, builds
 
 app = FastAPI(
     title="CI/CD Failure Investigator",
@@ -20,11 +21,13 @@ app.add_middleware(
 
 @app.on_event("startup")
 async def startup():
-    # Tables are managed by Alembic in production.
-    # This is a safety net for local dev without running migrations.
     Base.metadata.create_all(bind=engine)
 
 
 @app.get("/health")
 def health():
     return {"status": "ok", "service": "cicd-failure-investigator"}
+
+
+app.include_router(webhooks.router)
+app.include_router(builds.router)

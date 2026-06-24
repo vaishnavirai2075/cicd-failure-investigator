@@ -2,7 +2,7 @@ services:
   backend:
     build: ./backend
     ports:
-      - "8000:8000"
+      - "8001:8000"
     environment:
       - DATABASE_URL=mysql+pymysql://root:password@db:3306/cicd_investigator
       - CHROMA_HOST=chromadb
