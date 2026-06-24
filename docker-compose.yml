@@ -6,7 +6,7 @@ services:
     environment:
       - DATABASE_URL=mysql+pymysql://root:password@db:3306/cicd_investigator
       - CHROMA_HOST=chromadb
-      - CHROMA_PORT=8001
+      - CHROMA_PORT=8002
       - OPENAI_API_KEY=${OPENAI_API_KEY}
     depends_on:
       db:
@@ -44,7 +44,7 @@ services:
   chromadb:
     image: chromadb/chroma:latest
     ports:
-      - "8001:8000"
+      - "8002:8000"
     volumes:
       - chroma_data:/chroma/chroma
 
