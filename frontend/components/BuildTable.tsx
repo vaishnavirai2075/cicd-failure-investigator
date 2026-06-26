@@ -1,6 +1,7 @@
 "use client";
 import BuildStatusBadge from "./BuildStatusBadge";
 import RootCauseBadge from "./RootCauseBadge";
+import { timeAgo, initials } from "@/lib/mock-data";
 
 export interface BuildRow {
   build_id: string;
@@ -52,8 +53,8 @@ export default function BuildTable({ builds, loading = false }: BuildTableProps)
               <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
                 Author
               </th>
-              <th className="px-4 py-3 text-left text-xs font-medium text-text-muted uppercase tracking-wider">
-                Duration
+              <th className="px-4 py-3 text-right text-xs font-medium text-text-muted uppercase tracking-wider">
+                When
               </th>
             </tr>
           </thead>
@@ -93,11 +94,18 @@ export default function BuildTable({ builds, loading = false }: BuildTableProps)
                         <span className="text-text-muted text-xs">—</span>
                       )}
                     </td>
-                    <td className="px-4 py-3 text-text-muted text-xs">
-                      {build.author}
+                    <td className="px-4 py-3">
+                      <div className="flex items-center gap-2">
+                        <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full bg-accent/15 text-[10px] font-semibold text-accent">
+                          {initials(build.author)}
+                        </span>
+                        <span className="text-text-primary text-xs">
+                          {build.author}
+                        </span>
+                      </div>
                     </td>
-                    <td className="px-4 py-3 text-text-muted text-xs font-mono">
-                      {build.duration_sec ? `${build.duration_sec}s` : "—"}
+                    <td className="px-4 py-3 text-right text-text-muted text-xs font-mono whitespace-nowrap">
+                      {timeAgo(build.created_at)}
                     </td>
                   </tr>
                 ))}
