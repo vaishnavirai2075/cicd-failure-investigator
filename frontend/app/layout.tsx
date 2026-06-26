@@ -1,52 +1,56 @@
-import type { Metadata } from "next";
+import { Analytics } from "@vercel/analytics/next";
+import type { Metadata, Viewport } from "next";
+import { Inter, JetBrains_Mono } from "next/font/google";
 import "./globals.css";
 
+const inter = Inter({ variable: "--font-inter", subsets: ["latin"] });
+const jetbrainsMono = JetBrains_Mono({
+  variable: "--font-jetbrains-mono",
+  subsets: ["latin"],
+});
+
 export const metadata: Metadata = {
-  title: "CI/CD Failure Investigator",
-  description: "AI-powered CI/CD failure analysis",
+  title: "Pipeline Investigator — CI/CD Failure Analysis",
+  description:
+    "Investigate CI/CD build failures with AI-powered root cause analysis.",
+  icons: {
+    icon: [
+      {
+        url: "/icon-light-32x32.png",
+        media: "(prefers-color-scheme: light)",
+      },
+      {
+        url: "/icon-dark-32x32.png",
+        media: "(prefers-color-scheme: dark)",
+      },
+      {
+        url: "/icon.svg",
+        type: "image/svg+xml",
+      },
+    ],
+    apple: "/apple-icon.png",
+  },
+};
+
+export const viewport: Viewport = {
+  colorScheme: "dark",
+  themeColor: "#0A0A0F",
 };
 
 export default function RootLayout({
   children,
-}: {
+}: Readonly<{
   children: React.ReactNode;
-}) {
+}>) {
   return (
-    <html lang="en">
-      <body className="bg-background text-text-primary min-h-screen">
-        <nav className="border-b border-border bg-surface px-6 py-3 flex items-center justify-between sticky top-0 z-50">
-          <div className="flex items-center gap-3">
-            <div className="w-7 h-7 rounded-md bg-accent flex items-center justify-center">
-              <span className="text-white text-xs font-bold font-mono">CI</span>
-            </div>
-            <span className="font-semibold text-text-primary tracking-tight">
-              CI/CD Investigator
-            </span>
-          </div>
-          <div className="flex items-center gap-1">
-            <NavLink href="/dashboard">Dashboard</NavLink>
-            <NavLink href="/chat">Chat</NavLink>
-          </div>
-        </nav>
-        <main className="min-h-[calc(100vh-53px)]">{children}</main>
+    <html
+      lang="en"
+      className={`dark ${inter.variable} ${jetbrainsMono.variable}`}
+    >
+      <body className="bg-background font-sans antialiased">
+        {children}
+        {process.env.NODE_ENV === "production" && <Analytics />}
       </body>
     </html>
-  );
-}
-
-function NavLink({
-  href,
-  children,
-}: {
-  href: string;
-  children: React.ReactNode;
-}) {
-  return (
-    <a
-      href={href}
-      className="px-3 py-1.5 rounded-md text-sm text-text-muted hover:text-text-primary hover:bg-surface-hover transition-colors"
-    >
-      {children}
-    </a>
   );
 }
