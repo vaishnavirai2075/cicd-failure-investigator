@@ -7,8 +7,7 @@ import { cn } from "@/lib/utils";
 
 const LINKS = [
   { href: "/", label: "Dashboard" },
-  { href: "/pipelines", label: "Pipelines" },
-  { href: "/insights", label: "Insights" },
+  { href: "/chat", label: "Chat" },
 ];
 
 export function TopNav() {

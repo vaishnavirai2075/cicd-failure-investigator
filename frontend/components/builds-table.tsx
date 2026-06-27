@@ -6,6 +6,18 @@ import { RootCauseBadge } from "@/components/root-cause-badge";
 import { AuthorAvatar } from "@/components/author-avatar";
 
 export function BuildsTable({ builds }: { builds: Build[] }) {
+  if (builds.length === 0) {
+    return (
+      <div className="glass rounded-xl p-12 text-center">
+        <p className="text-2xl mb-2">🏗️</p>
+        <p className="text-sm font-medium text-foreground">No builds yet</p>
+        <p className="text-xs text-muted-foreground mt-1">
+          Trigger a webhook to get started
+        </p>
+      </div>
+    );
+  }
+  
   return (
     <div className="glass overflow-hidden rounded-xl">
       <div className="flex items-center justify-between border-b border-border px-5 py-4">
